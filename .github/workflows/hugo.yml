@@ -62,13 +62,14 @@ jobs:
           path: ./public
 
   # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          # github_token: ${{ secrets.GAYHUB_TOKEN }} # 该项适用于发布到源码相同repo的情况，不能用于发布到其他repo
+          personal_token: ${{ secrets.ACTION_ACCESS_TOKEN }}	# 发布到其他repo需要提供上面生成的personal access token
+          publish_dir: ./public	# 注意这里指的是要发布哪个文件夹的内容，而不是指发布到目的仓库的什么位置，hugo默认生成静态网页到public文件夹
+          external_repository: ${{ github.actor }}/${{ github.actor }}.github.io	# 发布到哪个repo
+          publish_branch: pages-hugo	# 发布到哪个branch
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
+          force_orphan: true # make your publish branch with only the latest commit
