@@ -5,7 +5,7 @@ baseURL = 'https://zjzjy.github.io'
 defaultContentLanguage = "en"
 
 # 网站标题
-title = 'Yewentao Hugo Site'
+title = 'Just a Test'
 
 # hugo主题
 theme = 'DoIt'
@@ -103,7 +103,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
 [params]
   # 网站标题
-  title = "yewentao's blog"
+  title = "test's blog"
   # 网站描述
   description = "yewentao's blog"
   # 网站关键词
@@ -247,7 +247,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       # 头像的链接指向的 URL
       avatarLinkURL = ""
       # 主页显示的网站标题 (支持 HTML 格式)
-      title = "Yewentao's Blog"
+      title = "11122's Blog"
       # 主页显示的网站副标题 (允许 HTML 格式)
       subtitle = "Hello friend, welcome to my blog!"
       # 是否为副标题显示打字机动画
