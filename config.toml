@@ -5,7 +5,7 @@ baseURL = 'https://zjzjy.github.io'
 defaultContentLanguage = "en"
 
 # 网站标题
-title = 'Just a Test'
+title = 'ZhengJunyin Hugo Site'
 
 # hugo主题
 theme = 'DoIt'
@@ -33,10 +33,10 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
 # 作者配置
 [author]
-  name = "yewentao"
-  email = "zhyanwentao@outlook.com"
-  link = "https://wentao.site/"
-  avatar = "/avatar.png"
+  name = "Junyin"
+  email = "zhengjunyin@outlook.com"
+  link = "https://zjzjy.github.io"
+  avatar = "/avatar.jpg"
   gravatarEmail = ""
 
 # 网站地图配置
@@ -103,15 +103,15 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
 [params]
   # 网站标题
-  title = "test's blog"
+  title = "ZhengJunyin's blog"
   # 网站描述
-  description = "yewentao's blog"
+  description = "zhengjunyin's blog"
   # 网站关键词
-  keywords = ["Blog", "Hugo", "yewentao"]
+  keywords = ["Blog", "Hugo", "zhengjunyin"]
   # 网站默认主题样式 ("light", "dark", "black", "auto")
   defaultTheme = "auto"
   # 公共 git 仓库路径，仅在 enableGitInfo 设为 true 时有效
-  gitRepo = "https://github.com/yewentao256"
+  gitRepo = "https://github.com/zjzjy"
   # 哪种哈希函数用来 SRI（全称 Subresource Integrity，是一种安全特性，可以让浏览器验证获取的资源是否被篡改), 为空时表示不使用 SRI
   # ["sha256", "sha384", "sha512", "md5"]
   fingerprint = ""
@@ -155,7 +155,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # 是否显示作者
     author = true
     # 网站创立年份
-    since = "2021"
+    since = "2024"
     # ICP 备案信息，仅在中国使用 (支持 HTML 格式)
     icp = ""
     # 许可协议信息 (支持 HTML 格式)
@@ -243,11 +243,11 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       # 主页显示头像的 URL
       # 将你的头像文件放置于 static 或者 assets 目录下
       # 文件路径是相对于 static 或者 assets 目录的
-      avatarURL = "/avatar.png"
+      avatarURL = "/avatar.jpg"
       # 头像的链接指向的 URL
       avatarLinkURL = ""
       # 主页显示的网站标题 (支持 HTML 格式)
-      title = "11122's Blog"
+      title = "Junyin's Blog"
       # 主页显示的网站副标题 (允许 HTML 格式)
       subtitle = "Hello friend, welcome to my blog!"
       # 是否为副标题显示打字机动画
@@ -264,8 +264,8 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
   # 作者的社交信息设置
   [params.social]
-    GitHub = "yewentao256"
-    Linkedin = "yewentao"
+    GitHub = "zjzjy"
+    # Linkedin = "yewentao"
     # Twitter = "xxxx"
     # Instagram = "xxxx"
     # Facebook = "xxxx"
@@ -297,7 +297,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
     # HackTheBox = ""
     # RootMe= ""
     # Phone = ""
-    Email = "zhyanwentao@outlook.com"
+    Email = "zhengjunyin@outlook.com"
     # RSS = true
 
   # 文章页面全局配置
@@ -521,7 +521,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       [params.page.comment.giscus]
         enable = true
         # owner/repo
-        dataRepo = "yewentao256/yewentao256.github.io"
+        dataRepo = "zjzjy/zjzjy.github.io"
         dataRepoId = "R_kgDOI3HpRQ"
         dataCategory = "Announcements"
         dataCategoryId = "DIC_kwDOI3HpRc4CYIaq"
@@ -667,7 +667,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 [languages]
   [languages.en]
     weight = 1
-    title = "Yewentao's Blog"
+    title = "Zhengjunyin's Blog"
     languageCode = "en"
     languageName = "English"
     [[languages.en.menu.main]]
@@ -700,12 +700,12 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       pre = "<i class='fab fa-github fa-fw' aria-hidden='true'></i>"
       post = ""
       name = ""
-      url = "https://github.com/yewentao256"
+      url = "https://github.com/zjzjy"
       title = "GitHub"
 
   [languages.zh-cn]
     weight = 2
-    title = "Yewentao's Blog"
+    title = "Zhengjunyin's Blog"
     languageCode = "zh-CN"
     languageName = "简体中文"
     hasCJKLanguage = true
@@ -739,7 +739,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
       pre = "<i class='fab fa-github fa-fw' aria-hidden='true'></i>"
       post = ""
       name = ""
-      url = "https://github.com/yewentao256"
+      url = "https://github.com/zjzjy"
       title = "GitHub"
 
 # 用于 Hugo 输出文档的设置
