@@ -1,5 +1,5 @@
 # 基座url，如果要正确找到css文件，务必配置正确
-baseURL = 'https://yewentao256.github.io'
+baseURL = 'https://zjzjy.github.io'
 
 # [en, zh-cn, fr, ...] 设置默认的语言
 defaultContentLanguage = "en"
