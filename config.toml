@@ -33,7 +33,7 @@ ignoreErrors = ["error-remote-getjson", "error-missing-instagram-accesstoken"]
 
 # 作者配置
 [author]
-  name = "Junyin"
+  name = "Yewentao"
   email = "zhengjunyin@outlook.com"
   link = "https://zjzjy.github.io"
   avatar = "/avatar.jpg"
