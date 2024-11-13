@@ -1,15 +1,15 @@
 ---
-title: "{{ replace .Name "-" " " | title }}"
-date: {{ .Date }}
-lastmod: {{ .Date }}
+title: "Try"
+date: 2024-11-13T22:06:13+08:00
+lastmod: 2024-11-13T22:06:13+08:00
 categories: [""]
-summary: "{{ replace .Name "-" " " | title }}"
+summary: "Try"
 ---
 
 ## Summary
 
 填充此处
-{{< music auto="https://music.163.com/#/playlist?id=60198" >}}
+{{< music auto="https://music.163.com/#/song?id=64093" >}}
 ## To be translated
 
 Oh Sorry!
