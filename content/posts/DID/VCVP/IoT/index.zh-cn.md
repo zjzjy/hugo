@@ -1,9 +1,9 @@
 ---
-title: "{{ replace .Name "-" " " | title }}"
-date: {{ .Date }}
-lastmod: {{ .Date }}
+title: "IoT"
+date: 2024-11-14T15:11:56+08:00
+lastmod: 2024-11-14T15:11:56+08:00
 categories: [""]
-summary: "{{ replace .Name "-" " " | title }}"
+summary: "IoT"
 ---
 
 ## Summary
