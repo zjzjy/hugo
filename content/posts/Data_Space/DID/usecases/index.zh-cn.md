@@ -411,8 +411,11 @@ Happy Pets使用此凭据将访问控制**委托**给希望访问由Packet Deliv
 #### 4.1.2 启动身份验证流程
 ![image](456.png)
 4. 钱包会自动访问QR包含的URL来启动身份验证流程。此步骤中，钱包发送一个POST请求到指定的身份验证接口，向服务器请求验证信息。
+
 5. SIOP（Self-Issued OpenID Provider）是一种开放的身份验证协议。这将启动一个标准的SIOP的流程。
+   
 其中市场扮演依赖方（OpenID Connect术语中的RP）的角色，员工的移动设备充当Self-Issued IDP。在此步骤中，Marketplace创建SIOP身份验证请求。由于自我发布的OP可能作为本机应用程序或渐进式web应用程序（PWA）运行，RP可能没有网络可寻址端点来直接与OP通信。我们必须利用OpenID Connect的隐式流来与这些本地运行的OP通信，如[https://openid.net/specs/openid-connect-self-issued-v2-1_0.html]所述。
+
 6. 身份验证请求作为SIOP返回给员工钱包。SIOP流使用一个新的响应模式post，该post用于请求SIOP将身份验证过程的结果传递到某个端点。参数response_mode用于携带该值。SIOP交付身份验证结果的端点在标准参数redirect_uri中定义。
 #### 4.1.3 解析DID
 ![image](78.png)
