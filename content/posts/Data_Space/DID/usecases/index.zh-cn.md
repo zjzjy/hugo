@@ -213,7 +213,7 @@ Packet Delivery向它的一些员工发放凭据，这样他们就可以访问Ma
 - 雇主签署凭证并通过同一经过身份验证的通道将其发送给员工。
 
 下面这个例子是由发行者Packet Delivery颁发凭证的元数据和可视化后的具体内容：
- ```javascript
+ ```JSON
 // Credential issued by PacketDelivery to its employees, providing access to 
 // Marketplace, either to create offerings or to purchase offerings. 
 { 
@@ -332,7 +332,7 @@ Happy Pets使用此凭据将访问控制**委托**给希望访问由Packet Deliv
 - 凭证应由Happy Pets通过作为先前客户注册过程（KYC）一部分的安全和认证渠道向客户发行。
 - 凭证中包含的角色对应于客户类型，角色名称由服务提供者（在本例中为Packet Delivery）定义和理解。
 
-```javascript
+```JSON
 // Credential issued by HappyPets to a customer,
 // providing access to Gold services at PacketDelivery.
 { 
@@ -730,7 +730,8 @@ Decoded Bearer JWT payload:
 
 一般来说，对于这两种情况，改变PTA的要求都应予以拒绝。但是，可以显示No cheaper客户能够查看其交付订单的属性。
 
-### 4.5 为连接器/应用程序上下文发出token
+### 4.5 为Connectors / application context发布token
+
 
 
 
