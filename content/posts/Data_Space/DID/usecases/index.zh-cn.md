@@ -405,27 +405,29 @@ Happy Pets使用此凭据将访问控制**委托**给希望访问由Packet Deliv
 ![架构概述](create_architecture.png)
 #### 4.1.1 用户访问
 ![image](1_3.png)
-1. Packet Delivery员工访问Marketplace门户（由BAE Logic Proxy提供），以便登录。
-2. Marketplace门户显示一个身份提供者列表，用于选择所需的身份提供者进行登录。其中一个登录选项是“使用可验证凭据登录”。Packet Delivery Co员工选择“可验证凭据”登录方法，这会导致Marketplace门户生成一个QR，其中包含Marketplace服务器的/身份验证请求端点的URL。
-3. 员工启用数字钱包中的扫描功能扫描QR，手机调用/身份验证请求端点。扫描的目的启动身份验证流程，确保登录用户确实是拥有该凭证的员工。
+1.Packet Delivery员工访问Marketplace门户（由BAE Logic Proxy提供），以便登录。
+
+2.Marketplace门户显示一个身份提供者列表，用于选择所需的身份提供者进行登录。其中一个登录选项是“使用可验证凭据登录”。Packet Delivery Co员工选择“可验证凭据”登录方法，这会导致Marketplace门户生成一个QR，其中包含Marketplace服务器的/身份验证请求端点的URL。
+
+3.员工启用数字钱包中的扫描功能扫描QR，手机调用/身份验证请求端点。扫描的目的启动身份验证流程，确保登录用户确实是拥有该凭证的员工。
 #### 4.1.2 启动身份验证流程
 ![image](456.png)
-4. 钱包会自动访问QR包含的URL来启动身份验证流程。此步骤中，钱包发送一个POST请求到指定的身份验证接口，向服务器请求验证信息。
+4.钱包会自动访问QR包含的URL来启动身份验证流程。此步骤中，钱包发送一个POST请求到指定的身份验证接口，向服务器请求验证信息。
 
-5. SIOP（Self-Issued OpenID Provider）是一种开放的身份验证协议。这将启动一个标准的SIOP的流程。
-   
+5.SIOP（Self-Issued OpenID Provider）是一种开放的身份验证协议。这将启动一个标准的SIOP的流程。
 其中市场扮演依赖方（OpenID Connect术语中的RP）的角色，员工的移动设备充当Self-Issued IDP。在此步骤中，Marketplace创建SIOP身份验证请求。由于自我发布的OP可能作为本机应用程序或渐进式web应用程序（PWA）运行，RP可能没有网络可寻址端点来直接与OP通信。我们必须利用OpenID Connect的隐式流来与这些本地运行的OP通信，如[https://openid.net/specs/openid-connect-self-issued-v2-1_0.html]所述。
 
-6. 身份验证请求作为SIOP返回给员工钱包。SIOP流使用一个新的响应模式post，该post用于请求SIOP将身份验证过程的结果传递到某个端点。参数response_mode用于携带该值。SIOP交付身份验证结果的端点在标准参数redirect_uri中定义。
+6.身份验证请求作为SIOP返回给员工钱包。SIOP流使用一个新的响应模式post，该post用于请求SIOP将身份验证过程的结果传递到某个端点。参数response_mode用于携带该值。SIOP交付身份验证结果的端点在标准参数redirect_uri中定义。
 #### 4.1.3 解析DID
 ![image](78.png)
-7. 在此步骤中，员工通过解析在身份验证请求的**client_id**参数中接收到的Marketplace的DID来验证Marketplace是属于生态系统的受信任实体。
+7.在此步骤中，员工通过解析在身份验证请求的**client_id**参数中接收到的Marketplace的DID来验证Marketplace是属于生态系统的受信任实体。
 
 为了解析DID，钱包发送一个GET请求到/api/did/v1/identifiers/did:elsi:EU.EORI.NLMARKETPLA可以实现通用解析器功能的几个可信服务器端点之一。
 - 通用解析器包括一个区块链节点，根据需要可以有多个节点。它的任务是使用区块链解析DID并返回相关的DID文档。
 - DID文档（根据W3C）包含关于DID实体所有者的相关信息。它包含其公钥，用于验证实体的数字签名。它还包含实体在数据空间生态系统中的状态。它是可扩展的，并且可以包含与用例相关的任何公共信息。通用解析器服务器必须由客户的可信实体操作。可以有由不同实体操作的任意数量的节点。必须在员工的钱包中配置这些可信实体中的至少一个。
-8. 钱包可以获得Marketplace的DID文档。文档会提供市场的详细信息，包括市场的数字签名公钥，确保钱包与合法的市场实体进行交互。其中包含有关实体的可信信息，包含有关实体的可信信息，以及Marketplace用于对tokens进行数字签名的私钥关联的公钥。例如：
-```javascript
+
+8.钱包可以获得Marketplace的DID文档。文档会提供市场的详细信息，包括市场的数字签名公钥，确保钱包与合法的市场实体进行交互。其中包含有关实体的可信信息，包含有关实体的可信信息，以及Marketplace用于对tokens进行数字签名的私钥关联的公钥。例如：
+```JSON
 {
     "payload": {
          "@context": [
@@ -475,17 +477,18 @@ Happy Pets使用此凭据将访问控制**委托**给希望访问由Packet Deliv
 ```
 #### 4.1.4 验证身份请求
 ![image](9.png)
-9. 钱包对收到的身份验证请求进行验证。它会检查请求的数字签名，确认该签名是由合法的市场实体生成的。重要性：这一步骤确保钱包正在与真正的市场进行交互，而不是被中间人攻击或其他形式的网络欺诈所欺骗。
+9.钱包对收到的身份验证请求进行验证。它会检查请求的数字签名，确认该签名是由合法的市场实体生成的。重要性：这一步骤确保钱包正在与真正的市场进行交互，而不是被中间人攻击或其他形式的网络欺诈所欺骗。
 DID文档在**verificationMethod**数组中包含一个或多个公钥。键由数组中每个元素的**id**字段标识。员工钱包使用身份验证请求（在JWT的受保护头中）中接收到的**kid**字段来选择相应的公钥并验证JWT的签名。它还验证DID文档（“DID:elsi:EU.EORI.NLMARKETPLA”）中的顶级**id**字段是否等于身份验证请求的**client_id**参数。
 #### 4.1.5 创建身份验证响应
 ![image](101112.png)
-10. 如果身份验证请求被验证为合法，钱包将生成一个身份验证响应，并在步骤5中Marketplace指定的redirect_uri中发布。该响应中会包含一个可验证凭证（VC），用来表明员工的身份和权限。
+10.如果身份验证请求被验证为合法，钱包将生成一个身份验证响应，并在步骤5中Marketplace指定的redirect_uri中发布。该响应中会包含一个可验证凭证（VC），用来表明员工的身份和权限。
 
 关键点：这个可验证凭证由包裹递送公司签发，证明该员工确实是公司的一员，并且拥有相应的访问权限。
-11. 钱包将身份验证响应发送到市场的SIOP会话接口。市场会根据接收到的响应来决定是否授予员工访问权限。
+
+11.钱包将身份验证响应发送到市场的SIOP会话接口。市场会根据接收到的响应来决定是否授予员工访问权限。
     
 SIOP使用“application/x-www-form-urlencoded”编码的HTTP POST请求将身份验证响应 发送到 redirect_uri身份验证请求参数 中传递的端点。响应包含一个ID token和一个VP（可验证表示）token，如OpenID中为可验证表示定义的那样。
-```json
+```JSON
 POST /siop_sessions HTTP/1.1
 Host: marketplace.fiware.io
 Content-Type: application/x-www-form-urlencoded
@@ -494,7 +497,7 @@ id_token=eyJ0 ... NiJ9.eyJ1c ... I6IjIifX0.DeWt4Qu ... ZXso
 &state=af0ifjsldkj
 ```
 解码后的id_token：
-```javascript
+```JSON
 {
  "iss": "https://self-issued.me/v2",
  "aud": "did:elsi:EU.EORI.NLMARKETPLA",
@@ -529,7 +532,7 @@ vp_token包括可验证的表示，它可以有两种格式：jwt_vp （JWT编�
 }
 ```
 解码后是：
-```javascript
+```JSON
 {
     "@context": ["https://www.w3.org/2018/credentials/v1"],
     "type": ["VerifiablePresentation"],
@@ -580,5 +583,157 @@ vp_token包括可验证的表示，它可以有两种格式：jwt_vp （JWT编�
 }
 
 ```
-12. 市场通过通用解析器（Universal Resolver）解析包裹递送公司的DID文档，验证该公司的身份和公钥信息。这一步骤确保市场与一个合法的公司实体进行交互。该DID位于可验证演示中收到的可验证凭据内。这个DID可以在上面的“verifiableCredential”结构的“issuer”字段中找到。解析是通过向通用解析器发送GET请求来执行的：/api/did/v1/identifiers/did:elsi:EU.EORI。NLPACKETDEL市场可以使用由不同实体操作的通用解析器，但与使用直接连接到区块链网络的自己的服务器相比，这会降低信任水平。
+12.市场通过通用解析器（Universal Resolver）解析包裹递送公司的DID文档，验证该公司的身份和公钥信息。这一步骤确保市场与一个合法的公司实体进行交互。该DID位于可验证演示中收到的可验证凭据内。这个DID可以在上面的“verifiableCredential”结构的“issuer”字段中找到。解析是通过向通用解析器发送GET请求来执行的：/api/did/v1/identifiers/did:elsi:EU.EORI。NLPACKETDEL市场可以使用由不同实体操作的通用解析器，但与使用直接连接到区块链网络的自己的服务器相比，这会降低信任水平。
+
+#### 4.1.6 验证身份响应
+![image](1314.png)
+13.市场获取包裹递送公司的DID文档，其中包含了公司的公钥和其他必要信息，用于后续的验证过程。
+
+公司公钥与公司用于对员工刚刚展示的可验证凭证进行数字签名的私钥有关，作为身份验证流程的一部分。使用公钥和DID文档中的DID，它可以验证可验证凭证的签名，以及包交付公司是生态系统中的可信实体，并且它是活跃的。
+
+14.市场使用包裹递送公司的公钥来验证身份响应的数字签名，确保身份响应确实是由合法的公司生成的。
+
+以上内容仅用于验证可验证证书。此外，Marketplace还可以验证包含可验证凭据的可验证演示文稿是由员工发送的，而不是由恶意代理发送的。为此，它在“credentialSubject”结构的“verificationMethod”中使用员工的公钥。在Packet Delivery Co与其员工一起执行的入职过程中，该公钥以加密方式绑定到员工DID。
+
+#### 4.1.7 创建、获取访问token
+![image](151617.png)
+15.完成所有验证后，Marketplace为员工创建一个访问令牌，以便她将来可以使用它访问Marketplace服务器中的服务。
+
+16.市场确认身份验证成功，向钱包返回HTTP 200状态码，并包含生成的访问令牌。
+
+17.员工的钱包显示确认信息，表明身份验证和令牌获取过程顺利完成。
+
+18.门户页面刷新后，员工可以看到新的服务选项，基于其身份和权限访问相关内容。
+#### 4.1.8 请求订单创建服务
+此时，Packet Delivery Co员工已登录到Marketplace应用程序。用户现在可以创建目录、产品和产品。
+
+这时候，市场了解到的信息：
+- 该Packet Delivery Co属于数据空间，并且可以颁发EmployeeCredential类型的凭据，因为它包含在可信发行者列表中并且是活动的，因为该信息在步骤13中检索的DID文档中。
+- 那个Packet Delivery Co说用户是它的雇员之一。此信息位于可验证凭据内，该凭据由Packet Delivery Co进行数字签名。
+
+从这一点开始，Marketplace可以向用户显示可用的服务，并在用户有权这样做的情况下执行这些服务。Marketplace可以使用凭据中的所有声明来执行RBAC/ABAC访问控制和策略实施。
+![image](19_24.png)
+19.展示可提供的服务。
+
+21.请求创建服务。
+
+22.市场提供offer细节。
+
+23.Offer可提供为Standard, Gold。用户进行选择。
+
+24.创建成功，市场向钱包发送200 OK 信息。
+
+### 4.2 获得权力/激活
+流程展示了Happy Pets员工如何通过使用去中心化标识符（DID）和可验证凭证（VC），在Marketplace上获得特定服务的访问权限。整个流程旨在确保员工身份的安全验证，并提供透明的访问控制。
+
+本流程与[4.1](#41-订单创建)的验证流程完全相同。不同之处是，Happy Pets或No cheap员工在Marketplace上的初始身份验证是使用由这些公司颁发给其员工的可验证凭证进行的，仅需将涉及的名称修改即可。在此不过多赘述。
+
+### 4.3 访问数据服务
+以下详细描述了Happy Pets客户在使用可验证凭据时更改PTA属性的过程。
+
+参与方：Happy Pets(Authorisation Registry, Identity Provider), User(Customer SLOP), Packet Delivery(Portal, Proxy, Authorisation Registry, Blockchain Node)
+![image](pets_1.png)
+1.Happy Pets的客户可以访问快递公司门户网站或在智能手机上启动快递公司应用程序登录。
+
+2.Happy Pets客户被转发到一个页面，用于选择所需的身份提供者进行登录。其中一个登录选项是“可验证凭据”或类似的东西。
+
+3.Happy Pets客户选择“可验证凭据”登录方式，这将导致Packet Delivery Co.门户生成一个QR，其中包含包交付公司IDP的/身份验证请求端点的URL，发送给顾客的钱包。
+
+4.客户用她的手机扫描QR，手机发送/authentication-requests请求端点。
+
+5.Packet Delivery门户在收到钱包发送的认证请求后，开启一个标准的SIOP流程，生成一个请求令牌（Request Token），并将其返回给客户的钱包。这个令牌不仅包含了Packet Delivery的DID（去中心化标识符），还包括了一些其他关键信息。这个令牌的生成相当于给客户的钱包发放了一张临时通行证，钱包会使用它来继续后续的验证操作。请求令牌确保了接下来的验证步骤具有唯一性和安全性。
+
+6.身份验证请求作为SIOP返回给客户钱包。SIOP流使用一个新的响应模式post，该post用于请求SIOP将身份验证过程的结果传递到某个端点。参数**response_mode**用于携带该值。SIOP交付身份验证结果的端点在标准参数**redirect_uri**中定义。
+
+返回 URI+Request Token，Request Token包含一个Packet Delivery的DID。
+
+7.在此步骤中，客户的钱包使用Universal Resolver来解析Packet Delivery公司的DID。解析在身份验证请求的client_id参数中接收到的Packet Delivery公司的DID，验证数据包交付公司是属于生态系统的受信任实体。
+![image](pets_2.png)
+8.Universal Resolver返回Packet Delivery公司的DID文档，该文档不仅包含了Packet Delivery的公钥，还包含了它在信任网络中的状态信息。这些信息帮助客户的钱包确认Packet Delivery公司是一个可信的实体，并且它在整个数据生态系统中扮演着可靠的角色。通过检查DID文档中的信息，钱包可以进一步确认即将发送和接收的数据不会被篡改或伪造。
+
+9.客户的钱包使用从DID文档中获得的信息来验证Packet Delivery门户的认证请求。首先，钱包会检查认证请求的数字签名，以确认请求确实是由Packet Delivery公司签署的。这一步就像是检查护照上的签名是否与持有者的签名一致，以确保请求的真实性和完整性。接下来，钱包会核对认证请求中的DID与之前解析的DID文档中的信息是否匹配，从而确保请求没有被篡改，并且确实来自于真正的Packet Delivery公司。
+
+10.客户钱包创建一个身份验证响应(URI+id_token)，将在第5步中由Packet Delivery公司指定的redirect_uri中发布。id_token需要包含客户DID，以及VC作为另外声明，顾客的VC由Happy Pets授予。
+
+11.客户的钱包将生成的认证响应提交给Packet Delivery门户的特定API端点（如`/siop-sessions`），这相当于在安检口提交了你的通行证。Packet Delivery门户会检查这一响应，验证客户的身份以及与之关联的可验证凭证，以确保客户有权访问相应的服务。这一步验证了客户的数字身份和凭证的完整性，确保信息在传输过程中没有被篡改或伪造。
+
+12.Packet Delivery门户通过Universal Resolver解析Happy Pets的DID。该DID位于可验证演示中收到的可验证凭据内。这个DID可以在上面的“verifiableCredential”结构的“issuer”字段中找到。
+
+13.Packet Delivery接收Happy Pets的DID文档，其中包含有关公司的可信信息，包括与Happy Pets用于对客户刚刚在可验证表示中发送的可验证凭证进行数字签名的私钥相关联的公钥，作为身份验证流的一部分。使用公钥和DID文档中的DID，它可以验证可验证凭证的签名，并且Happy Pets是生态系统中的可信实体。
+
+14.以上内容仅用于验证可验证证书。此外，包交付公司还可以验证包含可验证凭据的可验证表示是由客户发送的，而不是由恶意代理发送的。为此，它在“credentialSubject”结构的“verificationMethod”中使用客户的公钥。在Happy Pets与客户一起执行的入职过程中，该公钥以加密方式绑定到客户DID
+![image](pets_3.png)
+15.完成所有验证后，Packet Delivery company为客户创建一个访问令牌，以便她将来可以使用它访问Packet Delivery company中的服务。
+
+16.钱包（SIOP）收到对POST请求的成功回复。
+
+17.Packet Delivery公司代理通知Packet Delivery门户客户已成功通过身份验证，门户可以显示该客户可用的服务。用户的浏览器接收到由分组交付（Packet Delivery）创建的访问令牌（Access Token），使其无需经过前面的认证过程就可以请求服务。访问令牌是一个标准的OAuth访问令牌，它包含了数据包交付访问其服务所需的信息。
+
+此时，Happy Pets客户已登录到包裹递送公司门户/应用程序，并看到可能提供的服务，包括更改其递送订单的PTA的选项。
+![image](pets_4.png)
+18.Happy Pets客户将看到Packet Delivery提供的可能服务，包括更改其交付订单的PTA的选项。
+
+19.Happy Pets客户搜索他的包裹递送订单，并显示其详细信息。他现在要求在包交付公司门户/应用程序上更改此订单的PTA。
+
+20.Packet Delivery Portal/APP向Packet Delivery Proxy发送请求，以更改交付订单的PTA。请求包含步骤15中生成的Access Token，以及要从中检索策略的授权注册中心的信息。
+
+```JSON
+> Authorization: Bearer IIeD...NIQ // Bearer JWT
+> Content-Type: application/json
+PATCH https://umbrella.fiware.io/ngsi-ld/v1/entities/urn:ngsild:DELIVERYORDER:001/attrs/pta
+> Payload
+{
+ "value": "<new PTA>",
+ "type": "Property"
+}
+Decoded Bearer JWT payload:
+{
+    "iss": "EU.EORI.NLHAPPYPETS", // Issuer: Happy Pets
+    "sub": "419404e1-07ce-4d80-9e8a-eca94vde0003de", // Customer pseudonym
+    "jti": "d8a7fd7465754a4a9117ee28f5b7fb60",
+    "iat": 1591966224,
+    "exp": 1591966254,
+    "aud": "EU.EORI.NLHAPPYPETS",
+    "authorisationRegistry": { // AR to retrieve policies from
+        "url": "https://ar.packetdelivery.com",
+        "identifier": "EU.EORI.NLHAPPYPETS",
+        "delegation_endpoint": "https://ar.packetdelivery.com/delegation",
+    }
+}
+```
+21.Packet Delivery Co. Proxy收到了步骤19更改交付订单的PTA的请求。从客户接收到的access token确保为她分配了带有更新此特定交付订单的PTA属性的策略的委托证据（在用户级别称为发布）。此外，由于在此场景中所需的客户策略是由第三方（Happy Pets）发布的，代理必须检查Happy Pets本身是否允许委托此策略。一般来说，规则是代理需要通过**发行者链**检查有效策略的存在，直到它自己（在本例中是包交付公司）成为发行者。在此场景中，代理将在两个不同的级别检查策略：组织层面（从Packet Delivery company到Happy Pets）和用户层面（从Happy Pets到客户）。可验证凭据负责用户级策略。
+
+22.为了检查Happy Pets是否允许将策略委托给其客户，procy将在Packet Delivery Authorization Registry检查该策略是否存在。Proxy将请求发送到Packet Delivery Authorization Registry的端点。
+
+23.Proxy接收Packet Delivery发给Happy Pets的委托证据策略。
+
+24.收到来自Packet Delivery company Authorization Registry的委托信息后，Proxy（或者更准确地说，PDP）现在可以评估所包含的组织策略是否允许更新PTA属性，从而评估是否允许Happy Pets将访问委托给其客户。如果Proxy接收到有效的策略，则将在组织级别授予访问权限。
+
+如果无法找到请求的委托证据，或者返回的策略包含Deny规则，则PTA的更改将被Packet Delivery company代理拒绝，并将错误返回给Packet Delivery company门户/应用程序，同时显示给Happy Pets客户。以下步骤可以省略。
+
+25.如前面步骤中所述，PDP评估了在组织级别和用户级别上授予特定交付订单的PTA的更改。因此，更改PTA的请求由Proxy转发给上下文代理，后者保存包交付订单的信息。包裹递送顺序的PTA被更改，上下文代理返回一个HTTP代码204的成功响应。上下文代理响应返回到Portal，以响应步骤26的请求。
+
+26.将成功的PTA变更呈现给Happy Pets客户。
+
+### 4.4 无权限
+本节描述上述步骤在No cheaper客户场景中的变化。
+
+基本上步骤顺序与Happy Pets相同。与Happy Pets相反，在[权利获取/激活](#42-获得权力激活)中描述的权利获取过程中，No cheaper只是获取标准服务，因此其客户只能读取交付订单的属性。这意味着在包交付授权注册中心，只创建了一个策略，允许No cheaper只将GET访问权委托给交付订单。
+
+此场景可分为两种情况，以演示基于组织级别和用户级别的不同策略拒绝访问。
+
+1. 在No cheaper授权注册中心，向No cheaper客户颁发可验证凭据，仅允许向包交付服务（代表p.f info . standard角色）发出GET请求。当执行更改交付订单的PTA值的步骤时（如前一节所述），流程将在步骤19处停止，此时将拒绝访问，因为没有在用户级别为No cheap客户分配必要的策略。
+
+2. 在No cheaper授权注册中心，向No cheaper客户颁发可验证凭据，允许向包交付服务（代表p.f info . gold角色）发出GET和PATCH请求。当执行更改交付订单的PTA值的步骤时，如前一节所述，流程将在步骤23处停止，此时访问将被拒绝，因为在包交付公司授权注册中心没有为No cheap分配必要的策略来将高级访问委托给其客户。
+
+因此，将在组织级别拒绝访问。这是为了表明，即使No cheap组织在其自己的Authorization Registry中向其客户颁发对高级服务的访问权，访问仍然会被拒绝。
+
+一般来说，对于这两种情况，改变PTA的要求都应予以拒绝。但是，可以显示No cheaper客户能够查看其交付订单的属性。
+
+### 4.5 为连接器/应用程序上下文发出token
+
+
+
+
+
 
